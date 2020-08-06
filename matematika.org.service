@@ -1,0 +1,21 @@
+[Unit]
+Description=matematika.info
+
+Requires=docker.service
+After=docker.service
+
+[Service]
+
+Restart=always
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill matematika.info
+ExecStartPre=-/usr/bin/docker rm matematika.info
+ExecStartPre=-/usr/bin/docker pull marley/matematika.info:latest
+ExecStart=/bin/sh -c '/usr/bin/docker run --name matematika.info   \
+ -p 4019:80                        \
+ marley/matematika.info'
+ExecStop=-/usr/bin/docker kill matematika.info
+ExecStop=-/usr/bin/docker rm matematika.info
+
+[Install]
+WantedBy=multi-user.target
